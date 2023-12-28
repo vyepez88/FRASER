@@ -150,7 +150,7 @@ calculatePvalues <- function(fds, type=currentType(fds),
         pVals(fds, dist="Normal", level="junction", 
                 withDimnames=FALSE) <- pvals
         if(isTRUE(twoPassMode)){
-            fds <- calculateTwoPassPvalues(fds, type=type, 
+            fds <- (fds, type=type, 
                                 twoPassFDRcutoff = twoPassFDRcutoff,
                                 implementation=implementation, 
                                 BPPARAM=BPPARAM, distribution="Normal", 
@@ -581,7 +581,7 @@ calculatePadjValuesOnSubset <- function(fds, genesToTest, subsetName,
 }
 
 calculateTwoPassPvalues <- function(fds, type=currentType(fds), 
-                            twoPassFDRcutoff = 1e-3, implementation="PCA", 
+                            twoPassFDRcutoff = 1e-3, usePvalCutoff = FALSE, implementation="PCA", 
                             distribution="BetaBinomial", rhoRange=c(-30, 30),
                             BPPARAM=bpparam()){
     
@@ -590,7 +590,8 @@ calculateTwoPassPvalues <- function(fds, type=currentType(fds),
     
     # get FDR across all samples for each intron
     p <- pVals(fds, type=type, level="junction", dist=distribution)
-    fdrAcrossSamples <- t(apply(p, 1, p.adjust, method="BY"))
+    # if(usePvalCutoff == FALSE) fdrAcrossSamples <- t(apply(p, 1, p.adjust, method="BY"))
+    fdrAcrossSamples <- ifelse(usePvalCutoff == TRUE, t(p), t(apply(p, 1, p.adjust, method="BY")))
     
     # get samples which should be excluded from rho fit
     exMat <- fdrAcrossSamples <= twoPassFDRcutoff

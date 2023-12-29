@@ -115,6 +115,7 @@ calculatePvalues <- function(fds, type=currentType(fds),
         if(isTRUE(twoPassMode)){
             fds <- calculateTwoPassPvalues(fds, type=type, 
                                 twoPassFDRcutoff = twoPassFDRcutoff,
+                                usePvalCutoff = FALSE,
                                 implementation=implementation, 
                                 BPPARAM=BPPARAM, distribution="BetaBinomial", 
                                 rhoRange=twoPassRhoRange)
@@ -133,6 +134,7 @@ calculatePvalues <- function(fds, type=currentType(fds),
         if(isTRUE(twoPassMode)){
             fds <- calculateTwoPassPvalues(fds, type=type, 
                                 twoPassFDRcutoff = twoPassFDRcutoff,
+                                usePvalCutoff = FALSE,
                                 implementation=implementation, 
                                 BPPARAM=BPPARAM, distribution="Binomial", 
                                 rhoRange=twoPassRhoRange)

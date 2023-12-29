@@ -153,7 +153,7 @@ calculatePvalues <- function(fds, type=currentType(fds),
         pVals(fds, dist="Normal", level="junction", 
                 withDimnames=FALSE) <- pvals
         if(isTRUE(twoPassMode)){
-            fds <- (fds, type=type, 
+            fds <- calculateTwoPassPvalues(fds, type=type, 
                                 twoPassFDRcutoff = twoPassFDRcutoff,
                                 implementation=implementation,
                                 usePvalCutoff = usePvalCutoff,

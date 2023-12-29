@@ -46,6 +46,7 @@ calculatePvalues <- function(fds, type=currentType(fds),
                     implementation="PCA", BPPARAM=bpparam(),
                     distributions=c("betabinomial"), capN=5*1e5, 
                     twoPassMode=FALSE, twoPassFDRcutoff=1e-3, 
+                    usePvalCutoff = FALSE,
                     twoPassRhoRange=c(-30, 30)){
     distributions <- tolower(distributions)
     distributions <- match.arg(distributions, several.ok=TRUE,
@@ -154,7 +155,8 @@ calculatePvalues <- function(fds, type=currentType(fds),
         if(isTRUE(twoPassMode)){
             fds <- (fds, type=type, 
                                 twoPassFDRcutoff = twoPassFDRcutoff,
-                                implementation=implementation, 
+                                implementation=implementation,
+                                usePvalCutoff = usePvalCutoff,
                                 BPPARAM=BPPARAM, distribution="Normal", 
                                 rhoRange=twoPassRhoRange)
         }

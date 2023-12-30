@@ -595,7 +595,11 @@ calculateTwoPassPvalues <- function(fds, type=currentType(fds),
     # get FDR across all samples for each intron
     p <- pVals(fds, type=type, level="junction", dist=distribution)
     # if(usePvalCutoff == FALSE) fdrAcrossSamples <- t(apply(p, 1, p.adjust, method="BY"))
-    fdrAcrossSamples <- ifelse(usePvalCutoff == TRUE, t(p), t(apply(p, 1, p.adjust, method="BY")))
+    if(usePvalCutoff == TRUE){
+        fdrAcrossSamples <- t(p)
+    } else {
+        fdrAcrossSamples <- t(apply(p, 1, p.adjust, method="BY"))
+    }
     
     # get samples which should be excluded from rho fit
     exMat <- fdrAcrossSamples <= twoPassFDRcutoff

@@ -596,7 +596,7 @@ calculateTwoPassPvalues <- function(fds, type=currentType(fds),
     p <- pVals(fds, type=type, level="junction", dist=distribution)
     # if(usePvalCutoff == FALSE) fdrAcrossSamples <- t(apply(p, 1, p.adjust, method="BY"))
     if(usePvalCutoff == TRUE){
-        fdrAcrossSamples <- t(p)
+        fdrAcrossSamples <- copy(p)
     } else {
         fdrAcrossSamples <- t(apply(p, 1, p.adjust, method="BY"))
     }
